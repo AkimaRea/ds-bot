@@ -1,0 +1,2 @@
+"""Discord strategy bot package."""
+
