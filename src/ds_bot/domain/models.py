@@ -77,6 +77,16 @@ class TurnHistory:
 
 
 @dataclass(slots=True)
+class AdminAuditLog:
+    turn_number: int
+    host_user_id: int
+    action: str
+    before: dict[str, object]
+    after: dict[str, object]
+    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+
+
+@dataclass(slots=True)
 class GameState:
     id: int = 1
     guild_id: int | None = None
@@ -89,6 +99,7 @@ class GameState:
     orders: list[Order] = field(default_factory=list)
     reservations: list[UnitReservation] = field(default_factory=list)
     turn_history: list[TurnHistory] = field(default_factory=list)
+    admin_audit_log: list[AdminAuditLog] = field(default_factory=list)
 
     def next_order_id(self) -> int:
         if not self.orders:
