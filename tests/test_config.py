@@ -5,6 +5,9 @@ from ds_bot.config import Settings
 
 def test_settings_load_team_discord_ids(monkeypatch) -> None:
     monkeypatch.setenv("DISCORD_TOKEN", "token")
+    for team_id in range(1, 9):
+        monkeypatch.setenv(f"TEAM_{team_id}_ROLE_ID", "")
+        monkeypatch.setenv(f"TEAM_{team_id}_CHANNEL_ID", "")
     monkeypatch.setenv("TEAM_1_ROLE_ID", "101")
     monkeypatch.setenv("TEAM_1_CHANNEL_ID", "201")
 

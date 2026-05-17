@@ -29,6 +29,8 @@ def ensure_host_access(context: DiscordContext, config: DiscordAccessConfig) -> 
 
 def resolve_team_id(game: GameState, context: DiscordContext) -> int:
     for team in game.teams.values():
+        if team.discord_channel_id is None and team.discord_role_id is None:
+            continue
         channel_ok = team.discord_channel_id is None or team.discord_channel_id == context.channel_id
         role_ok = team.discord_role_id is None or team.discord_role_id in context.role_ids
         if channel_ok and role_ok:
