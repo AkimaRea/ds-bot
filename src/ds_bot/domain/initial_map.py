@@ -20,7 +20,10 @@ EMPTY_CITY_IDS = (4, 8, 14)
 ZOMBIE_CITY_ID = 0
 
 
-def create_initial_game(guild_id: int | None = None) -> GameState:
+def create_initial_game(
+    guild_id: int | None = None,
+    team_discord: dict[int, tuple[int | None, int | None]] | None = None,
+) -> GameState:
     teams: dict[int, Team] = {}
     cities: dict[int, City] = {
         ZOMBIE_CITY_ID: City(
@@ -32,7 +35,14 @@ def create_initial_game(guild_id: int | None = None) -> GameState:
     }
 
     for team_id, name, color, city_id in TEAM_SPECS:
-        teams[team_id] = Team(id=team_id, name=name, color=color)
+        role_id, channel_id = (team_discord or {}).get(team_id, (None, None))
+        teams[team_id] = Team(
+            id=team_id,
+            name=name,
+            color=color,
+            discord_role_id=role_id,
+            discord_channel_id=channel_id,
+        )
         cities[city_id] = City(
             id=city_id,
             owner_type=OwnerType.TEAM,

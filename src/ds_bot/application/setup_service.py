@@ -9,7 +9,11 @@ class SetupService:
     def __init__(self, repository: GameRepository) -> None:
         self.repository = repository
 
-    def start_new_game(self, guild_id: int | None = None) -> GameState:
-        game = create_initial_game(guild_id=guild_id)
+    def start_new_game(
+        self,
+        guild_id: int | None = None,
+        team_discord: dict[int, tuple[int | None, int | None]] | None = None,
+    ) -> GameState:
+        game = create_initial_game(guild_id=guild_id, team_discord=team_discord)
         self.repository.save(game)
         return game
